@@ -12,12 +12,9 @@ const columns = [
   { field: "password", headerName: "PASSWORD", type: "string", width: 200 },
   { field: "Address", headerName: "ADDRESS", type: "string", width: 250 },
   { field: "contact", headerName: "CONTACT", type: "number", width: 200 },
-  //   {field: "fullName",headerName: "Full name",description: "This column has a value getter and is not sortable.",
-  //         sortable: false,
-  //     width: 160,
-  //     valueGetter: (params) =>
-  //       `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  //   },
+  { field: "edit", headerName: "EDIT", type: "string", width: 200 },
+  { field: "delete", headerName: "DELETE", type: "string", width: 200 },
+ 
 ];
 
 const View = () => {
@@ -26,7 +23,8 @@ const View = () => {
   email:"",
   password:"",
   Address:"",
-  contact:""
+  contact:"",
+  
 
 }])
   const displayData = {
@@ -41,8 +39,7 @@ const View = () => {
   const endpoint = "https://620be96bab956ad80566597e.mockapi.io/city";
 
   const getApiData = () => {
-    console.log("INVOL+KED GET")
-    fetch(endpoint, { method: "GET" })
+     fetch(endpoint, { method: "GET" })
       .then((response) => response.json())
       .then((tableData) => {console.log("Data from API", tableData);updatedState(tableData)})
       .catch((err) => {

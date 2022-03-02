@@ -11,7 +11,7 @@ import View from "./components/View";
 function App() {
   return (
     <div>
-      {/** based on url we have to rende component
+      {/** based on url we have to render component
        * if path is "/view" we will show view page
        *  if path is "/form" we will show form page
        */}

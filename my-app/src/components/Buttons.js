@@ -17,18 +17,21 @@ const Buttons = ({ data ,type,values}) => {
         method: "POST",
         body:JSON.stringify(values),
         headers: { "Content-Type": "application/json" },
-      }).then(()=>{
-        navigation("/view");
+      })
+    //   .then(()=>{
+    //     navigation("/view");
         
-    });
+    // });
 
   }
   const navigateToView = () => {
     fetch(endpoint,{method: "GET",}).then(response => response.json()).then(empDetails=>{
       console.log("EMP DETAILS",empDetails);
-    });
-    //When clicking on button url should change to "/View"
-    navigation("/view");
+    }).then(()=>{
+      navigation("/view");
+      
+  });
+    
   };
   const goBack = () => {
     //When clicking on button url should change to "/form"
