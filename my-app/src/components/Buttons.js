@@ -18,10 +18,7 @@ const Buttons = ({ data ,type,values}) => {
         body:JSON.stringify(values),
         headers: { "Content-Type": "application/json" },
       })
-    //   .then(()=>{
-    //     navigation("/view");
-        
-    // });
+    
 
   }
   const navigateToView = () => {
