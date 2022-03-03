@@ -149,7 +149,7 @@ export default function Form() {
         />
         <div style={btnStyle}>
           <Buttons type="submit" data="Register" values={values} />
-          <Buttons data="View Details" />
+          <Buttons  type="View Details" data="View Details" />
           {/* <Buttons data="Clear Form" values={values} /> */}
         </div>
       </form>

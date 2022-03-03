@@ -1,5 +1,6 @@
 import "./App.css";
 import Form from "./components/Form";
+import EditForm from "./components/EditForm";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/" element={<Form />}></Route>
         <Route path="/view" element={<View />}></Route>
         <Route path="/form" element={<Form />} />
+        <Route path="/edit" element={<EditForm />} />
       </Routes>
 
       {/* <footer>Copyright</footer> */}
