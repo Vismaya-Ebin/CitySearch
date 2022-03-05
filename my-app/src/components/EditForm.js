@@ -98,8 +98,9 @@ export default function EditForm() {
           </i>
         </h1>
       </div>
+      { user.name && user.email && user.password && user.contact && user.Address ?( 
       <form style={container} onSubmit={handleSubmit}>
-        <TextField
+      <TextField
           id="filled-basic"
           label="Name"
           id="name"
@@ -186,7 +187,7 @@ export default function EditForm() {
 
           
         </div>
-      </form>
+      </form>):null}
     </main>
   );
 }
