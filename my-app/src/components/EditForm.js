@@ -1,10 +1,9 @@
 import React from "react";
-import Buttons from "./Buttons";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import Button from "@mui/material/Button";
 import * as yup from "yup";
 
 export const formValidationSchema = yup.object({
@@ -49,7 +48,11 @@ export default function EditForm() {
     fontFamily: "Times New Roman",
   };
   const { id } = useParams();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({name: "",
+  email: "",
+  password: "",
+  Address: "",
+  contact: ""});
   
   const updateDetails = () => {
     const endpoint = "https://620be96bab956ad80566597e.mockapi.io/city";
@@ -57,7 +60,7 @@ export default function EditForm() {
       .then((response) => response.json())
       .then((data) => {
         console.log("@@@@UPDATE DETAILS@@@@@", data);
-        setUser(data);
+        setUser({name:data.name,email:data.email,password:data.password,Address:data.Address,contact:data.contact});
       });
   };
 
@@ -66,20 +69,23 @@ export default function EditForm() {
 
   //write a useFormik({}) with initial values with a submit function which will be called on clicking submit()
   //We will pass initialValue & onSubmit to useFormik hook
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
+  const { handleSubmit, values, handleChange, handleBlur, touched, errors ,isValid,dirty} =
     useFormik({
       initialValues: {
-        name: "",
-        email: "",
-        password: "",
-        Address: "",
-        contact: "",
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        Address: user.Address,
+        contact: user.contact,
       },
+      enableReinitialize: true,
       validationSchema: formValidationSchema,
       onSubmit: (values) => {
         console.log(" onSubmitVALUES", values);
       },
     });
+
+    console.log("values in edit",values);
 
   return (
     <main>
@@ -102,6 +108,7 @@ export default function EditForm() {
           variant="filled"
           fullWidth
           value={user.name}
+         
           error={errors.name && touched.name}
           helperText={errors.name && touched.name ? errors.name : ""}
           onChange={handleChange}
@@ -167,8 +174,16 @@ export default function EditForm() {
           fullWidth
         />
         <div style={btnStyle}>
-          <Buttons type="SAVE" data="SAVE" values={values} getId={id} />
-          <Buttons type="View Details" data="View Details" />
+         
+        <Button
+          color="primary"
+            variant="contained"
+            type="submit"
+            disabled={!(isValid || dirty)}
+          >
+            Save
+          </Button>
+
           
         </div>
       </form>

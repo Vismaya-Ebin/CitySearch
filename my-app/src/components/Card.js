@@ -2,7 +2,7 @@ import React from "react";
 import Paper from '@mui/material/Paper';
 import Button from "@mui/material/Button";
 import "../App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext,  createContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Card() {
@@ -72,7 +72,7 @@ export default function Card() {
       
     <div style={displayFlex}>
      {initialState.map((data,index)=>(
-     <div style={container}><Paper style={paperStyle} elevation={32} key={index}>
+     <div style={container}  key={index}><Paper style={paperStyle}>
        <h4> <i>{data.id}</i></h4>
        <h4><span>Name     :{data.name}</span></h4> 
        <h4><span>Password :{data.password}</span></h4>

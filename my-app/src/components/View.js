@@ -1,8 +1,6 @@
 import React from "react";
-import Buttons from "./Buttons";
 import Card from "./Card";
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
 

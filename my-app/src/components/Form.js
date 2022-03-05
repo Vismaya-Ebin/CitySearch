@@ -1,7 +1,10 @@
 import React from "react";
-import Buttons from "./Buttons";
+
+import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
+import Button from "@mui/material/Button";
+import { useState } from "react";
 
 import * as yup from "yup";
 
@@ -13,14 +16,12 @@ export const formValidationSchema = yup.object({
     .string()
     .required("Required")
     .min(5, "Minimum 5 character needed"),
-    
-  contact: yup
-    .number()
-    .required("Required")
-    .max(10, "Only 10 digits allowed"),
+
+  contact: yup.number().required("Required"),
 });
 
 export default function Form() {
+  const navigation = useNavigate();
   const container = {
     display: "flex",
     flexDirection: "column",
@@ -32,40 +33,73 @@ export default function Form() {
     margin: "0px",
   };
 
-  const btnStyle = {
-    display: "flex",
+  const btnDiv = {
+    display: "flex !important",
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: "2rem",
     justifyContent: "center",
     alignItems: "center",
+  };
+  const btnStyle = {
+    
+    margin: "3rem",
   };
   const headerStyle = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#4267B2",
+    backgroundColor: "#1976d2",
     color: "white",
     fontFamily: "Times New Roman",
   };
+  const endpoint = "https://620be96bab956ad80566597e.mockapi.io/city";
+  const [initialState, updatedState] = useState([]);
+  const saveData = (values) => {
+    fetch(endpoint, {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: { "Content-Type": "application/json" },
+    });
+  };
 
+  const navigateToView = () => {
+    fetch(endpoint, { method: "GET" })
+      .then((response) => response.json())
+      .then((empDetails) => {
+        console.log("UPDATED DETAILS", empDetails);
+        updatedState(empDetails);
+      })
+      .then(() => {
+        navigation("/view");
+      });
+  };
   //write a useFormik({}) with initial values with a submit function which will be called on clicking submit()
   //We will pass initialValue & onSubmit to useFormik hook
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
-    useFormik({
-      initialValues: {
-        name: "",
-        email: "",
-        password: "",
-        Address: "",
-        contact: "",
-      },
-      validationSchema: formValidationSchema,
-      onSubmit: (values) => {
-        console.log("VALUES", values);
-      },
-    });
+
+  const {
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    dirty,
+    isValid,
+  } = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      Address: "",
+      contact: "",
+    },
+    validationSchema: formValidationSchema,
+    onSubmit: (values) => {
+      console.log("VALUES", values);
+      saveData(values);
+    },
+  });
   return (
     <main>
       <div style={headerStyle}>
@@ -115,7 +149,9 @@ export default function Form() {
           name="password"
           value={values.password}
           error={errors.password && touched.password}
-          helperText={errors.password && touched.password ? errors.password : ""}
+          helperText={
+            errors.password && touched.password ? errors.password : ""
+          }
           fullWidth
         />
         <TextField
@@ -144,14 +180,22 @@ export default function Form() {
           name="contact"
           value={values.contact}
           error={errors.contact && touched.contact}
-          
           helperText={errors.contact && touched.contact ? errors.contact : ""}
           fullWidth
         />
-        <div style={btnStyle}>
-          <Buttons type="submit" data="Register" values={values}/>
-          <Buttons  type="View Details" data="View Details" />
-          {/* <Buttons data="Clear Form" values={values} /> */}
+        <div style={btnDiv}>
+          <Button
+          color="primary"
+            variant="contained"
+            type="submit"
+            disabled={!(isValid || dirty)}
+          >
+            Register
+          </Button>
+
+          <Button color="primary" variant="contained"  style={btnStyle} onClick={navigateToView}>
+            View Details
+          </Button>
         </div>
       </form>
     </main>
