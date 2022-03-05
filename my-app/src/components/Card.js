@@ -22,6 +22,7 @@ export default function Card() {
         flexWrap: "wrap",
         justifyContent:"space-around",
         alignContent:"center",
+        margin:".53rem"
         
        }
 

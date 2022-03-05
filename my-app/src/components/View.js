@@ -1,6 +1,10 @@
 import React from "react";
 import Buttons from "./Buttons";
 import Card from "./Card";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from "react-router-dom";
 
 const View = () => {
   const displayData = {
@@ -12,6 +16,12 @@ const View = () => {
     color: "white",
     fontFamily: "Times New Roman",
     backgroundColor: "#4267B2",
+   
+  };
+  const navigation = useNavigate();
+  const goBack = () => {
+    //When clicking on button url should change to "/form"
+    navigation("/form");
   };
 
   return (
@@ -22,7 +32,11 @@ const View = () => {
 
       <Card />
 
-      <Buttons data="Go Back" type="GO BACK" />
+     <div style={displayData}>
+      <Fab color="warning" aria-label="add">
+        <ArrowBackIcon  onClick={goBack}/>
+      </Fab>
+      </div>
     </div>
   );
 };

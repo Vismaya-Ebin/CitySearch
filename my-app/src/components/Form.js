@@ -7,17 +7,17 @@ import * as yup from "yup";
 
 export const formValidationSchema = yup.object({
   name: yup.string().required("Required"),
-  email: yup.string().required("Required"),
+  email: yup.string().email("Invalid email address").required("Required"),
   password: yup.string().required("Required"),
   Address: yup
     .string()
     .required("Required")
-    .min(5, "Minimum 5 character needed")
-    .max(15, "Only 15 allowed"),
+    .min(5, "Minimum 5 character needed"),
+    
   contact: yup
     .number()
     .required("Required")
-    .min(10, "Only 10 digits allowed"),
+    .max(10, "Only 10 digits allowed"),
 });
 
 export default function Form() {
@@ -137,18 +137,19 @@ export default function Form() {
           id="filled-basic"
           label="Contact No"
           variant="filled"
-          type="number"
+          type="tel"
           onChange={handleChange}
           onBlur={handleBlur}
           id="contact"
           name="contact"
           value={values.contact}
           error={errors.contact && touched.contact}
+          
           helperText={errors.contact && touched.contact ? errors.contact : ""}
           fullWidth
         />
         <div style={btnStyle}>
-          <Buttons type="submit" data="Register" values={values} />
+          <Buttons type="submit" data="Register" values={values}/>
           <Buttons  type="View Details" data="View Details" />
           {/* <Buttons data="Clear Form" values={values} /> */}
         </div>
