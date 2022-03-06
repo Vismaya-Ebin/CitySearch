@@ -3,10 +3,9 @@ import Form from "./components/Form";
 import EditForm from "./components/EditForm";
 import {
   BrowserRouter as Router,
-  Navigate,
   Routes,
-  Route,
-  Link,
+  Route
+ 
 } from "react-router-dom";
 import View from "./components/View";
 import NotFound from './components/NotFound';
@@ -29,7 +28,7 @@ function App() {
       
       </Routes>
 
-      {/* <footer>Copyright</footer> */}
+    
     </div>
   );
 }

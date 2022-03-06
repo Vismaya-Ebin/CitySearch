@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import "../App.css";
 import { useState, useEffect, useContext,  createContext } from "react";
 import { useNavigate } from "react-router-dom";
-
+/**This component is to display data on card */
 export default function Card() {
     const [initialState, updatedState] = useState([
         { id: "", name: "", email: "", password: "", Address: "", contact: "" },
@@ -43,13 +43,12 @@ export default function Card() {
       
       const endpoint = "https://620be96bab956ad80566597e.mockapi.io/city";
       const navigation = useNavigate();
-
+      /**Get call to show city data on cards */
       const getApiData = () => {
         fetch(endpoint, { method: "GET" })
           .then((response) => response.json())
           .then((tableData) => {
-            console.log("Data from API", tableData);
-            updatedState(tableData);
+           updatedState(tableData);
           })
           .catch((err) => {
             console.log("ERROR", err);
@@ -57,6 +56,8 @@ export default function Card() {
       };
       // similar to ComponentDidMount
       useEffect(getApiData, []);
+
+      /**Delete item based on id */
       const deleteData = (id) => {
           fetch(endpoint + "/" + id, { method: "DELETE" })
           .then((response) => response.json())
@@ -64,13 +65,15 @@ export default function Card() {
           .catch((err) => console.log("ERROR", err));
         
       }
+      /**Navigate to edit page */
       const editData = (id) => {
         navigation("/edit/" + id);
     }
 
   return (
-      
+      //iterate array of objects by map
     <div style={displayFlex}>
+      
      {initialState.map((data,index)=>(
      <div style={container}  key={index}><Paper style={paperStyle}>
        <h4> <i>{data.id}</i></h4>

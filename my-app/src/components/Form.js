@@ -1,13 +1,13 @@
 import React from "react";
-
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-
 import * as yup from "yup";
 
+
+/**Form validation */
 export const formValidationSchema = yup.object({
   name: yup.string().required("Required"),
   email: yup.string().email("Invalid email address").required("Required"),
@@ -21,7 +21,8 @@ export const formValidationSchema = yup.object({
 });
 
 export default function Form() {
-  const navigation = useNavigate();
+
+ 
   const container = {
     display: "flex",
     flexDirection: "column",
@@ -53,16 +54,23 @@ export default function Form() {
     color: "white",
     fontFamily: "Times New Roman",
   };
+ /**Navigation - to redirect to pages */
+  const navigation = useNavigate();
+  /**API end point*/
   const endpoint = "https://620be96bab956ad80566597e.mockapi.io/city";
+  /**initializing State */
   const [initialState, updatedState] = useState([]);
+
+  /**POST API called on submisssion of form*/
   const saveData = (values) => {
+    console.log("values inside saveData()", values);
     fetch(endpoint, {
       method: "POST",
       body: JSON.stringify(values),
       headers: { "Content-Type": "application/json" },
     });
   };
-
+/**GET API called to view all data*/
   const navigateToView = () => {
     fetch(endpoint, { method: "GET" })
       .then((response) => response.json())
@@ -96,8 +104,7 @@ export default function Form() {
     },
     validationSchema: formValidationSchema,
     onSubmit: (values) => {
-      console.log("VALUES", values);
-      saveData(values);
+     saveData(values);
     },
   });
   return (
@@ -185,7 +192,7 @@ export default function Form() {
         />
         <div style={btnDiv}>
           <Button
-          color="primary"
+            color="primary"
             variant="contained"
             type="submit"
             disabled={!(isValid || dirty)}
