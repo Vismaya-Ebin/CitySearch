@@ -11,11 +11,14 @@ export const formValidationSchema = yup.object({
   email: yup.string().required("Required"),
   password: yup.string().required("Required"),
   Address: yup
-    .string()
-    .required("Required")
-    .min(5, "Minimum 5 character needed")
-    .max(15, "Only 15 allowed"),
-  contact: yup.number().required("Required").min(10, "Only 10 digits allowed"),
+          .string()
+          .required("Required")
+          .min(5, "Minimum 5 character needed"),
+    
+  contact: yup
+          .number()
+          .required("Required")
+          .min(10, "Only 10 digits allowed"),
 });
 
 export default function EditForm() {
@@ -47,41 +50,43 @@ export default function EditForm() {
     color: "white",
     fontFamily: "Times New Roman",
   };
+  //To take data id from url we are using useParams
   const { id } = useParams();
-  const [user, setUser] = useState({name: "",
-  email: "",
-  password: "",
-  Address: "",
-  contact: ""});
+  //To take values from API we are using useState initially setting null
+  const [user, setUser] = useState(null);
   
   const updateDetails = () => {
     const endpoint = "https://620be96bab956ad80566597e.mockapi.io/city";
+    //fetching data based on ID
     fetch(endpoint + "/" + id, { method: "GET" })
       .then((response) => response.json())
+      //if there is response then set user to response
       .then((data) => {
-        console.log("@@@@UPDATE DETAILS@@@@@", data);
-        setUser({name:data.name,email:data.email,password:data.password,Address:data.Address,contact:data.contact});
+       setUser(data);
       });
   };
-
+  //Api call 
   useEffect(updateDetails, []);
-  
+ 
+ 
+ const saveData = (data)=>{
+    console.log("data",data);
+  }
 
   //write a useFormik({}) with initial values with a submit function which will be called on clicking submit()
   //We will pass initialValue & onSubmit to useFormik hook
   const { handleSubmit, values, handleChange, handleBlur, touched, errors ,isValid,dirty} =
     useFormik({
-      initialValues: {
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        Address: user.Address,
-        contact: user.contact,
-      },
+      //checking if user is null or not
+      initialValues: user?user:{},
+      //enableReinitialize should be true to update form values
       enableReinitialize: true,
+      //validation part of the form
       validationSchema: formValidationSchema,
+      //submit function on clicking save button this method will be called
       onSubmit: (values) => {
-        console.log(" onSubmitVALUES", values);
+        console.log(" SAVE BTM CLICKED", values);
+       saveData(values);
       },
     });
 
@@ -93,12 +98,12 @@ export default function EditForm() {
         <h1>
           <i>
             <b>
-              Edit User Id {id} {user.name}
+              Edit User Id {id} 
             </b>
           </i>
         </h1>
       </div>
-      { user.name && user.email && user.password && user.contact && user.Address ?( 
+   
       <form style={container} onSubmit={handleSubmit}>
       <TextField
           id="filled-basic"
@@ -108,8 +113,7 @@ export default function EditForm() {
           type="text"
           variant="filled"
           fullWidth
-          value={user.name}
-         
+          value={values.name}
           error={errors.name && touched.name}
           helperText={errors.name && touched.name ? errors.name : ""}
           onChange={handleChange}
@@ -124,7 +128,7 @@ export default function EditForm() {
           onBlur={handleBlur}
           id="email"
           name="email"
-          value={user.email}
+          value={values.email}
           error={errors.email && touched.email}
           helperText={errors.email && touched.email ? errors.email : ""}
           fullWidth
@@ -138,7 +142,7 @@ export default function EditForm() {
           onBlur={handleBlur}
           id="password"
           name="password"
-          value={user.password}
+          value={values.password}
           error={errors.password && touched.password}
           helperText={
             errors.password && touched.password ? errors.password : ""
@@ -154,7 +158,7 @@ export default function EditForm() {
           onBlur={handleBlur}
           id="Address"
           name="Address"
-          value={user.Address}
+          value={values.Address}
           error={errors.Address && touched.Address}
           helperText={errors.Address && touched.Address ? errors.Address : ""}
           fullWidth
@@ -169,7 +173,7 @@ export default function EditForm() {
           onBlur={handleBlur}
           id="contact"
           name="contact"
-          value={user.contact}
+          value={values.contact}
           error={errors.contact && touched.contact}
           helperText={errors.contact && touched.contact ? errors.contact : ""}
           fullWidth
@@ -187,7 +191,7 @@ export default function EditForm() {
 
           
         </div>
-      </form>):null}
+      </form>
     </main>
   );
 }
